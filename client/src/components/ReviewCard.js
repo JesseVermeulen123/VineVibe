@@ -95,11 +95,14 @@ export default function ReviewCard(props) {
           </form>
         </>
       ) : (
-        <div className="is-flex is-align-items-flex-center is-justify-content-space-between">
-          @{props.review.user.username}:
-          <br />
-          {props.review.comment}
-          <div>
+        <div className="columns">
+          <div className="column">
+            @{props.review.user.username}:
+            <p>
+              {props.review.comment}
+            </p>
+          </div>
+          <div className="column is-narrow">
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
@@ -123,9 +126,9 @@ export default function ReviewCard(props) {
   );
 }
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 ReviewCard.propTypes = {
   review: PropTypes.object,
   refreshWine: PropTypes.func,
-  wine: PropTypes.object
-}
+  wine: PropTypes.object,
+};

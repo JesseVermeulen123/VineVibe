@@ -29,29 +29,27 @@ export default function WineDetailsPage(props) {
   const [tried, setTried] = useState(false);
   const [wannaTry, setWannaTry] = useState(false);
 
-
   const { isLoggedIn, isLoading, user } = useContext(AuthContext);
-
 
   const checkUser = () => {
     if (isLoggedIn) {
       user.Favorite.map((userWine) => {
         if (userWine._id == wine._id) {
-          setLoved(true)
+          setLoved(true);
         }
-      })
+      });
       user.TriedInThePast.map((userWine) => {
         if (userWine._id == wine._id) {
-          setTried(true)
+          setTried(true);
         }
-      })
+      });
       user.WantToTry.map((userWine) => {
         if (userWine._id == wine._id) {
-          setWannaTry(true)
+          setWannaTry(true);
         }
-      })
+      });
     }
-  }
+  };
 
   async function fetchWine(id) {
     const response = await new Wines().getOne(id);
@@ -70,7 +68,6 @@ export default function WineDetailsPage(props) {
   // async function refreshUser() {
   //   await fetchUser(user._id);
   // }
-
 
   const handleLove = async (e) => {
     e.preventDefault();
@@ -116,7 +113,7 @@ export default function WineDetailsPage(props) {
   };
 
   useEffect(() => {
-    checkUser(user)
+    checkUser(user);
     fetchWine(props.match.params.id);
   }, [user, isLoggedIn, props.match.params.id]);
 
@@ -154,23 +151,13 @@ export default function WineDetailsPage(props) {
           <h2 className="wineDetailTitle">{wine.title}</h2>
         </Columns.Column>
         <Columns.Column className="is-narrow">
-          <button
-         
-            className="button"
-            onClick={(e) => handleLove(e) }
-          >
+          <button className="button" onClick={(e) => handleLove(e)}>
             {loved ? <FaHeartBroken /> : <FaHeart />}
           </button>
-          <button
-            className="button"
-            onClick={(e) => handleTried(e)}
-          >
+          <button className="button" onClick={(e) => handleTried(e)}>
             {tried ? <FaRegStar /> : <FaStar />}
           </button>
-          <button
-            className="button"
-            onClick={(e) => handleWannaTry(e)}
-          >
+          <button className="button" onClick={(e) => handleWannaTry(e)}>
             {wannaTry ? <FaTimes /> : <FaCheck />}
           </button>
         </Columns.Column>
@@ -185,30 +172,32 @@ export default function WineDetailsPage(props) {
           <Block className="">
             <b>Description:</b> {wine.description}
           </Block>
+          <div className="columns">
+            <div className="column is-6">
+              <Block className="">
+                <b>Average Price:</b> € {wine.price}
+              </Block>
+              <Block className="">
+                <b>Variety:</b> {wine.variety}
+              </Block>
+              <Block className="">
+                <b>Winery:</b> {wine.winery}
+              </Block>
+            </div>
+            <div className="column is-6">
+              <Block className="">
+                <b>Region:</b> {wine.region_1}
+              </Block>
+              <Block className="">
+                <b>Province:</b> {wine.province}
+              </Block>
+              <Block className="">
+                <b>Country:</b> {wine.country}
+              </Block>
+            </div>
+          </div>
+          <h3 className="title is-size-3">Reviews:</h3>
           <Block className="">
-            <b>Average Price:</b> € {wine.price}
-          </Block>
-          <Block className="">
-            <b>Variety:</b> {wine.variety}
-          </Block>
-          <Block className="">
-            <b>Region:</b> {wine.region_1}
-          </Block>
-          <Block className="">
-            <b>Province:</b> {wine.province}
-          </Block>
-          <Block className="">
-            <b>Country:</b> {wine.country}
-          </Block>
-          <Block className="">
-            <b>Winery:</b> {wine.winery}
-          </Block>
-          <Block className="">
-            <b>Add your own review:</b>
-            <ErrorBoundary>
-              <AddReview wineId={wine._id} refreshWine={refreshWine} />
-            </ErrorBoundary>
-            <b>Reviews:</b>
             <div>
               <ErrorBoundary>
                 {wine.reviews.map((element) => {
@@ -224,6 +213,10 @@ export default function WineDetailsPage(props) {
               </ErrorBoundary>
             </div>
           </Block>
+          <h3 className="is-size-5">Add your own review:</h3>
+          <ErrorBoundary>
+            <AddReview wineId={wine._id} refreshWine={refreshWine} />
+          </ErrorBoundary>
         </Box>
       )}
     </div>
@@ -232,5 +225,5 @@ export default function WineDetailsPage(props) {
 
 import PropTypes from "prop-types";
 WineDetailsPage.propTypes = {
-  match: PropTypes.object
-}
+  match: PropTypes.object,
+};
